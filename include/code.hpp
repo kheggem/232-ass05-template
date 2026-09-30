@@ -4,6 +4,7 @@
 #include <string>
 #include <variant>
 
+
 // ============================================================
 // STAGE 0: Legacy C Union
 // ============================================================
@@ -14,14 +15,39 @@
 /// - double member named 'd'
 /// - char pointer member named 'cPtr'
 union LegacyData {
-    // TODO: Define members here
+    int i;
+    double d;
+    char *cPtr;
 };
 
 /// Converts a LegacyData union to a formatted string based on the active type.
 /// @param data The union to convert
 /// @param type Character type indicator: 'i'=int, 'd'=double, 'c'=char*
 /// @return Formatted string representation ("42", "3.14", string value, or "unknown")
-std::string printLegacyData(LegacyData data, char type);
+std::string printLegacyData(LegacyData data, char type){
+    std::string result = "unknown";
+    
+    if(type == 'i'){
+        result = std::format("{}", data.i);
+        return result;
+    }
+
+    if(type == 'd'){
+        result = std::format("{}", data.d);
+        return result;
+    }
+
+    if(type == 'c'){
+
+        if(data.cPtr != NULL) {
+            result = std::format("{}", data.cPtr);
+            return result;
+        }
+
+        else
+            return result;
+    }
+}
 
 // ============================================================
 // STAGE 1: C-Style Struct
@@ -33,14 +59,18 @@ std::string printLegacyData(LegacyData data, char type);
 /// - Pointer member named 'nextPtr' pointing to structNode
 /// - char member named 'typeData' ('i', 'd', 'c')
 struct structNode {
-    // TODO: Define members here
+    LegacyData value;
+    struct Node *nextPtr;
+    char typeData;
 };
 
 /// Manually initializes a structNode with the given data and type.
 /// @param nPtr Pointer to the node to initialize
 /// @param val The LegacyData union value
 /// @param type Character type indicator ('i', 'd', 'c')
-void initStructNode(structNode* nPtr, LegacyData val, char type);
+void initStructNode(structNode* nPtr, LegacyData val, char type){
+    
+};
 
 /// Creates two dynamically allocated structNodes linked together.
 /// Node 1 contains int 5, Node 2 contains double 3.14.

@@ -1,5 +1,5 @@
 CC     = g++
-CFLAGS = -Wall -g -Isrc -Ilib -Iinclude -std=c++23
+CFLAGS = -Wall -g -Isrc -Ilib -Iinclude -std=c++20
 
 TARGET = bin/main.exe
 

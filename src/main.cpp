@@ -1,10 +1,16 @@
 
 #include <stdio.h>
 
+#include <iostream>
+#include <format>
+#include <string>
+
 #ifndef UNITY_H
 #define UNITY_H
 #include "unity.h"
 #endif
+
+using namespace std;
 
 // ============================================================
 // Test Declarations — implemented in tests.cpp
@@ -41,6 +47,18 @@ void tearDown(void) {}
 // ============================================================
 // Main Test Runner
 // ============================================================
+
+/*
+union LegacyData {
+    int i;
+    double d;
+    char *cPtr;
+};
+*/
+
+//print text on output- format
+//cout << format("first var {0} and second var {1} and first var {0}", 1, 2) << endl;
+
 int main(void) 
 {
     UNITY_BEGIN();
@@ -70,3 +88,9 @@ int main(void)
     int result = UNITY_END();
     return result;
 }
+
+
+/*
+union LegacyData was added by us
+-
+*/
