@@ -61,6 +61,7 @@ union LegacyData {
 
 int main(void) 
 {
+
     UNITY_BEGIN();
 
     // ========== STAGE 0 ==========

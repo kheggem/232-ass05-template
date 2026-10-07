@@ -66,7 +66,7 @@ public:
     classNode* nextPtr;
     char typeData;
 
-    classNode(LegacyData val, classNode *nextPtr, char type);
+    classNode(LegacyData val, classNode *nPtr, char type);
 };
 
 /// Creates two dynamically allocated classNode objects linked together.

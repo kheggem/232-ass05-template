@@ -1,4 +1,3 @@
-#include<string>
 // ============================================================
 // CSCI 232 Assignment 05 – Evolution of Data Structures
 // Student Implementation
@@ -54,11 +53,17 @@ std::string printLegacyData(LegacyData data, char type) {
 // ============================================================
 
 /// Initializes a structNode with value, type indicator, and nullptr nextPtr.
-
 void initStructNode(structNode* nPtr, LegacyData val, char type) {
-    // TODO: Check if nPtr is nullptr before assigning fields
-}
+    if(nPtr == NULL){
+        return;
+    }
 
+    else {
+    nPtr->value = val;
+    nPtr->typeData = type;
+    nPtr->nextPtr = nullptr;
+    };
+}
 
 /// Dynamically allocates two structNodes.
 /// Node 1: int 5 ('i')
@@ -66,8 +71,19 @@ void initStructNode(structNode* nPtr, LegacyData val, char type) {
 /// Links Node 1 -> Node 2 -> nullptr
 /// Returns pointer to Node 1.
 structNode* createTwoStructNodes() {
-    // TODO: Allocate dynamically using new, initialize both nodes, link them, and return head
-    return nullptr;
+    structNode* node1Ptr = new structNode();
+    LegacyData a;
+    a.i = 5;
+    initStructNode(node1Ptr, a, 'i');
+
+    structNode* node2Ptr = new structNode();
+    LegacyData b;
+    b.d = 3.14;
+    initStructNode(node2Ptr, b, 'd');
+
+    node1Ptr->nextPtr = node2Ptr;
+
+    return node1Ptr;
 }
 
 // ============================================================
@@ -79,14 +95,25 @@ structNode* createTwoStructNodes() {
 
 // uncomment the following code to implement the classNode constructor
 
-// classNode::classNode(LegacyData val, char type) {
-//     // TODO: Assign value, typeData, and set nextPtr to nullptr
-// }
+classNode::classNode(LegacyData val, classNode* nPtr, char type) {
+    value = val;
+    nextPtr = nPtr;
+    typeData = type;
+}
 
 /// Dynamically allocates two classNodes (int 5, double 3.14) and links them.
 classNode* createTwoClassNodes() {
-    // TODO: Allocate dynamically, link nodes, and return head
-    return nullptr;
+    LegacyData a;
+    a.i = 5;
+    classNode* node1Ptr = new classNode(a, NULL, 'i');
+
+    LegacyData b;
+    b.d = 3.14;
+    classNode* node2Ptr = new classNode(b, NULL, 'd');
+
+    node1Ptr->nextPtr = node2Ptr;
+
+    return node1Ptr;
 }
 
 // ============================================================
