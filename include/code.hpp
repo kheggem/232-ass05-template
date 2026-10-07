@@ -3,6 +3,7 @@
 
 #include <string>
 #include <variant>
+#include <format>
 
 
 // ============================================================
@@ -24,30 +25,7 @@ union LegacyData {
 /// @param data The union to convert
 /// @param type Character type indicator: 'i'=int, 'd'=double, 'c'=char*
 /// @return Formatted string representation ("42", "3.14", string value, or "unknown")
-std::string printLegacyData(LegacyData data, char type){
-    std::string result = "unknown";
-    
-    if(type == 'i'){
-        result = std::format("{}", data.i);
-        return result;
-    }
-
-    if(type == 'd'){
-        result = std::format("{}", data.d);
-        return result;
-    }
-
-    if(type == 'c'){
-
-        if(data.cPtr != NULL) {
-            result = std::format("{}", data.cPtr);
-            return result;
-        }
-
-        else
-            return result;
-    }
-}
+std::string printLegacyData(LegacyData data, char type);
 
 // ============================================================
 // STAGE 1: C-Style Struct
@@ -60,7 +38,7 @@ std::string printLegacyData(LegacyData data, char type){
 /// - char member named 'typeData' ('i', 'd', 'c')
 struct structNode {
     LegacyData value;
-    struct Node *nextPtr;
+    structNode *nextPtr;
     char typeData;
 };
 
@@ -68,9 +46,7 @@ struct structNode {
 /// @param nPtr Pointer to the node to initialize
 /// @param val The LegacyData union value
 /// @param type Character type indicator ('i', 'd', 'c')
-void initStructNode(structNode* nPtr, LegacyData val, char type){
-    
-};
+void initStructNode(structNode* nPtr, LegacyData val, char type);
 
 /// Creates two dynamically allocated structNodes linked together.
 /// Node 1 contains int 5, Node 2 contains double 3.14.
@@ -86,12 +62,11 @@ structNode* createTwoStructNodes();
 /// YOUR TASK: Define public members (value, nextPtr, typeData) and constructor declaration.
 class classNode {
 public:
-    // TODO: Define members and constructor
-    // LegacyData value;
-    // classNode* nextPtr;
-    // char typeData;
+    LegacyData value;
+    classNode* nextPtr;
+    char typeData;
 
-    // classNode(LegacyData val, char type);
+    classNode(LegacyData val, classNode *nextPtr, char type);
 };
 
 /// Creates two dynamically allocated classNode objects linked together.
@@ -108,12 +83,11 @@ classNode* createTwoClassNodes();
 /// YOUR TASK: Define member 'value' of type T, 'nextPtr' of type classNodeT<T>*, and constructor.
 template <typename T>
 class classNodeT {
-// public:
-//     // TODO: Define members and constructor using initializer list
-//     T value;
-//     classNodeT<T>* nextPtr;
+public:
+    T value;
+    classNodeT<T>* nextPtr;
 
-//     classNodeT(T d) : value(d), nextPtr(nullptr) {}
+    classNodeT(T d) : value(d), nextPtr(nullptr) {}
 };
 
 /// Creates two dynamically allocated classNodeT<int> objects linked together.
@@ -131,31 +105,36 @@ using ModernData = std::variant<int, double, std::string>;
 /// A modern C++17 linked list node using std::variant for type-safe storage.
 class classNodeVariant {
 public:
-    // ModernData value;
-    // classNodeVariant* nextPtr;
+    ModernData value;
+    classNodeVariant* nextPtr;
 
-    // /// Constructor using member initializer list.
-    // classNodeVariant(ModernData d) : value(d), nextPtr(nullptr) {}
+    //Constructor using member initializer list.
+    classNodeVariant(ModernData d) : value(d), nextPtr(nullptr) {}
 };
 
 /// A fully encapsulated linked list manager for classNodeVariant objects.
 /// YOUR TASK: Declare private members (headPtr, counter) and public methods.
+
+/*
 class LinkedList {
-// private:
-//     // TODO: Add headPtr (classNodeVariant*) and counter (int)
+private:
+    classNodeVariant* headPtr;
+    int counter;
 
-// public:
-//     LinkedList();
-//     ~LinkedList();
+public:
+    LinkedList();
+    ~LinkedList();
 
-//     void destroyList();
-//     int addFirst(classNodeVariant* newNodePtr);
-//     int addLast(classNodeVariant* newNodePtr);
-//     int deleteFirst();
-//     int deleteLast();
-//     int deleteValue(ModernData targetValue);
-//     int printList();
-//     int listLength();
+    void destroyList();
+    int addFirst(classNodeVariant* newNodePtr);
+    int addLast(classNodeVariant* newNodePtr);
+    int deleteFirst();
+    int deleteLast();
+    int deleteValue(ModernData targetValue);
+    int printList();
+    int listLength();
+
 };
+*/
 
 #endif
