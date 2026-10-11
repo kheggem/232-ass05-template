@@ -15,14 +15,24 @@
 /// Verify the returned string matches "42".
 void test_printLegacyData_int(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LegacyData a;
+    a.i = 42;
+
+    std::string resultVal = printLegacyData(a, 'i');
+
+    TEST_ASSERT_TRUE(resultVal == "42");
 }
 
 /// Create a LegacyData union with a double (3.14). Call printLegacyData.
 /// Verify the returned string matches "3.14".
 void test_printLegacyData_double(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LegacyData b;
+    b.d = 3.14;
+
+    std::string resultVal = printLegacyData(b, 'd');
+
+    TEST_ASSERT_TRUE(resultVal == "3.14");
 }
 
 // ============================================================
@@ -34,7 +44,16 @@ void test_printLegacyData_double(void)
 /// Clean up allocated memory.
 void test_createTwoStructNodes_links_correctly(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    structNode* resultPtr = createTwoStructNodes();
+
+    TEST_ASSERT_EQUAL('i', resultPtr->typeData);
+    TEST_ASSERT_EQUAL(5, resultPtr->value.i);
+
+    TEST_ASSERT_EQUAL('d', resultPtr->nextPtr->typeData);
+    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d == 3.14);
+
+    delete resultPtr->nextPtr;
+    delete resultPtr;
 }
 
 // ============================================================
@@ -46,7 +65,16 @@ void test_createTwoStructNodes_links_correctly(void)
 /// Clean up allocated memory.
 void test_createTwoClassNodes_links_correctly(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    classNode* resultPtr = createTwoClassNodes();
+
+    TEST_ASSERT_EQUAL('i', resultPtr->typeData);
+    TEST_ASSERT_EQUAL(5, resultPtr->value.i);
+
+    TEST_ASSERT_EQUAL('d', resultPtr->nextPtr->typeData);
+    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d == 3.14);
+
+    delete resultPtr->nextPtr;
+    delete resultPtr;
 }
 
 // ============================================================
@@ -58,7 +86,14 @@ void test_createTwoClassNodes_links_correctly(void)
 /// Clean up allocated memory.
 void test_createTwoTemplateNodes_links_correctly(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    classNodeT<int>* resultPtr = createTwoTemplateNodes();
+
+    TEST_ASSERT_EQUAL(5, resultPtr->value);
+
+    TEST_ASSERT_EQUAL(3, resultPtr->nextPtr->value);
+
+    delete resultPtr->nextPtr;
+    delete resultPtr;
 }
 
 // ============================================================
@@ -69,14 +104,47 @@ void test_createTwoTemplateNodes_links_correctly(void)
 /// Verify listLength() returns 2 after insertions.
 void test_linkedList_addFirst_updates_counter(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{5});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{3});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+
+    int length = list.listLength();
+
+    TEST_ASSERT_EQUAL(2, length);
 }
 
 /// Create a LinkedList. Add nodes (10, then 20) using addLast.
 /// Capture std::cout and verify elements appear in order ("10" before "20").
 void test_linkedList_addLast_places_at_end(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{10});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{20});
+
+    list.addLast(node1Ptr);
+    list.addLast(node2Ptr);
+
+    list.printList();
+
+    
+    std::stringstream buffer;
+    std::streambuf* originalBuffer = std::cout.rdbuf();
+    std::cout.rdbuf(buffer.rdbuf());
+
+    list.printList();
+
+    std::cout.rdbuf(originalBuffer);
+    std::string content = buffer.str();
+
+    size_t pos10 = content.find("10");
+    size_t pos20 = content.find("20");
+
+    TEST_ASSERT_TRUE(pos10 < pos20);
 }
 
 /// Create a LinkedList with an int, double, and string.
@@ -84,7 +152,26 @@ void test_linkedList_addLast_places_at_end(void)
 /// Verify list length decreases to 2 and second call returns -1.
 void test_linkedList_deleteValue_removes_variant(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{5});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{3.14});
+    classNodeVariant* node3Ptr = new classNodeVariant(ModernData{"ExampleString"});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+    list.addFirst(node3Ptr);
+
+    int length = list.listLength();
+    TEST_ASSERT_EQUAL(3, length);
+
+    list.deleteValue(3.14);
+    int returnVal = list.deleteValue(3.14);
+
+    int newLength = list.listLength();
+    TEST_ASSERT_EQUAL(2, newLength);
+
+    TEST_ASSERT_EQUAL(-1, returnVal);
 }
 
 /// Create a LinkedList and insert three nodes.
@@ -92,7 +179,20 @@ void test_linkedList_deleteValue_removes_variant(void)
 /// Verify listLength() becomes 0.
 void test_linkedList_destroyList_clears_all(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{5});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{3.14});
+    classNodeVariant* node3Ptr = new classNodeVariant(ModernData{"ExampleString"});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+    list.addFirst(node3Ptr);
+
+    list.destroyList();
+    int length = list.listLength();
+
+    TEST_ASSERT_EQUAL(0, length);
 }
 
 /// Create a LinkedList with nodes (10, 20, 30).
@@ -100,7 +200,21 @@ void test_linkedList_destroyList_clears_all(void)
 /// Verify listLength() becomes 2 and operation returns 0.
 void test_linkedList_deleteFirst(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{10});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{20});
+    classNodeVariant* node3Ptr = new classNodeVariant(ModernData{30});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+    list.addFirst(node3Ptr);
+
+    int returnVal = list.deleteFirst();
+    int length = list.listLength();
+
+    TEST_ASSERT_EQUAL(0, returnVal);
+    TEST_ASSERT_EQUAL(2, length);
 }
 
 /// Create a LinkedList with nodes (10, 20, 30).
@@ -108,7 +222,21 @@ void test_linkedList_deleteFirst(void)
 /// Verify listLength() becomes 2 and operation returns 0.
 void test_linkedList_deleteLast(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{10});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{20});
+    classNodeVariant* node3Ptr = new classNodeVariant(ModernData{30});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+    list.addFirst(node3Ptr);
+
+    int returnVal = list.deleteLast();
+    int length = list.listLength();
+
+    TEST_ASSERT_EQUAL(0, returnVal);
+    TEST_ASSERT_EQUAL(2, length);
 }
 
 /// Create a LinkedList with nodes (1, 2.5, "test").
@@ -116,5 +244,25 @@ void test_linkedList_deleteLast(void)
 /// Verify printed output contains "1", "2.5" (or "2.50"), and "test".
 void test_linkedList_printList(void) 
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    LinkedList list;
+
+    classNodeVariant* node1Ptr = new classNodeVariant(ModernData{1});
+    classNodeVariant* node2Ptr = new classNodeVariant(ModernData{2.5});
+    classNodeVariant* node3Ptr = new classNodeVariant(ModernData{"test"});
+
+    list.addFirst(node1Ptr);
+    list.addFirst(node2Ptr);
+    list.addFirst(node3Ptr);
+
+
+    std::stringstream buffer;
+    std::streambuf* originalBuffer = std::cout.rdbuf();
+    std::cout.rdbuf(buffer.rdbuf());
+
+    list.printList();
+
+    std::cout.rdbuf(originalBuffer);
+    std::string content = buffer.str();
+
+    TEST_ASSERT_EQUAL_STRING("test\n2.5\n1\n", content.c_str());
 }

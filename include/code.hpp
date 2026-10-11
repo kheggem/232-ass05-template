@@ -115,7 +115,6 @@ public:
 /// A fully encapsulated linked list manager for classNodeVariant objects.
 /// YOUR TASK: Declare private members (headPtr, counter) and public methods.
 
-/*
 class LinkedList {
 private:
     classNodeVariant* headPtr;
@@ -135,6 +134,6 @@ public:
     int listLength();
 
 };
-*/
+
 
 #endif
