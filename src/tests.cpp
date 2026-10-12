@@ -129,9 +129,6 @@ void test_linkedList_addLast_places_at_end(void)
     list.addLast(node1Ptr);
     list.addLast(node2Ptr);
 
-    list.printList();
-
-    
     std::stringstream buffer;
     std::streambuf* originalBuffer = std::cout.rdbuf();
     std::cout.rdbuf(buffer.rdbuf());
