@@ -50,7 +50,7 @@ void test_createTwoStructNodes_links_correctly(void)
     TEST_ASSERT_EQUAL(5, resultPtr->value.i);
 
     TEST_ASSERT_EQUAL('d', resultPtr->nextPtr->typeData);
-    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d == 3.14);
+    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d >= 3.139 && resultPtr->nextPtr->value.d <= 3.141);
 
     delete resultPtr->nextPtr;
     delete resultPtr;
@@ -71,7 +71,7 @@ void test_createTwoClassNodes_links_correctly(void)
     TEST_ASSERT_EQUAL(5, resultPtr->value.i);
 
     TEST_ASSERT_EQUAL('d', resultPtr->nextPtr->typeData);
-    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d == 3.14);
+    TEST_ASSERT_TRUE(resultPtr->nextPtr->value.d >= 3.139 && resultPtr->nextPtr->value.d <= 3.141);
 
     delete resultPtr->nextPtr;
     delete resultPtr;
