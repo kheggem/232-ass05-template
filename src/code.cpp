@@ -43,7 +43,7 @@ std::string printLegacyData(LegacyData data, char type) {
         }
 
         else
-            return result;
+            return "nullptr";
     }
 
     return result;
